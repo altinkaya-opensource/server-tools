@@ -1,80 +1,64 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
 
 <record id="image_form_view" model="ir.ui.view">
     <field name="name">Multi image form</field>
     <field name="model">base_multi_image.image</field>
     <field name="arch" type="xml">
         <form string="Image">
-            <sheet>
-                <group>
-                    <group
-                            string="Owner"
-                            attrs="{
-                            'invisible': [
-                                ('show_technical', '=', False),
-                            ],
+            <group>
+                <group
+                    string="Owner"
+                    attrs="{
+                        'invisible': [
+                            ('show_technical', '=', False),
+                        ],
+                    }">
+                    <field name="show_technical" invisible="True"/>
+                    <field name="owner_model"/>
+                    <field name="owner_id"/>
+                </group>
+                <group string="Name">
+                    <field name="name"/>
+                    <field name="storage"/>
+                    <field name="extension"/>
+                </group>
+            </group>
+            <group>
+                <group string="Options">
+                    <field
+                        name="url"
+                        attrs="{
+                            'invisible': [('storage', '!=', 'url')],
+                            'required': [('storage', '=', 'url')],
                         }"
-                        >
-                        <field name="show_technical" invisible="True" />
-                        <field name="owner_model" />
-                        <field name="owner_id" />
-                        <field name="owner_ref_id" />
-                        <field name="sequence" />
-                    </group>
-                    <group string="Name">
-                        <field name="name" />
-                        <field name="storage" />
-                        <field name="extension" />
-                    </group>
+                        widget="url"/>
+                    <field
+                        name="path"
+                        attrs="{
+                            'invisible': [('storage', '!=', 'file')],
+                            'required': [('storage', '=', 'file')],
+                        }"/>
+                    <field name="filename" invisible="1"/>
+                    <field
+                        name="file_db_store"
+                        attrs="{
+                            'invisible': [('storage', '!=', 'db')],
+                            'required': [('storage', '=', 'db')],
+                        }"
+                        filename="filename"/>
                 </group>
-                <group>
-                    <group string="Options">
-                        <field
-                                name="url"
-                                attrs="{
-                                'invisible': [('storage', '!=', 'url')],
-                                'required': [('storage', '=', 'url')],
-                            }"
-                                widget="url"
-                            />
-                        <field
-                                name="path"
-                                attrs="{
-                                'invisible': [('storage', '!=', 'file')],
-                                'required': [('storage', '=', 'file')],
-                            }"
-                            />
-                        <field name="filename" invisible="1" />
-                        <field
-                                name="file_db_store"
-                                attrs="{
-                                'invisible': [('storage', '!=', 'db')],
-                                'required': [('storage', '=', 'db')],
-                            }"
-                                filename="filename"
-                            />
-                        <field
-                                name="attachment_id"
-                                attrs="{
-                                'invisible': [('storage', '!=', 'filestore')],
-                                'required': [('storage', '=', 'filestore')],
-                            }"
-                            />
-                    </group>
-                    <group string="Preview">
-                        <field
-                                name="image_medium"
-                                widget="image"
-                                readonly="True"
-                                nolabel="1"
-                            />
-                    </group>
+                <group string="Preview">
+                    <field name="image_medium"
+                           widget="image"
+                           readonly="True"
+                           nolabel="1" />
                 </group>
-                <group string="Comments">
-                    <field name="comments" nolabel="1" />
-                </group>
-            </sheet>
+            </group>
+            <group string="Comments">
+                <field name="comments" nolabel="1" />
+            </group>
         </form>
     </field>
 </record>
@@ -83,12 +67,11 @@
     <field name="name">Multi image tree</field>
     <field name="model">base_multi_image.image</field>
     <field name="arch" type="xml">
-        <tree>
-            <field name="name" />
-            <field name="storage" />
-            <field name="owner_model" />
-            <field name="owner_id" />
-            <field name="sequence" invisible="True" />
+        <tree string="Images">
+            <field name="name"/>
+            <field name="storage"/>
+            <field name="owner_model"/>
+            <field name="owner_id"/>
         </tree>
     </field>
 </record>
@@ -98,46 +81,36 @@
     <field name="model">base_multi_image.image</field>
     <field name="arch" type="xml">
         <kanban string="Product Images">
-            <field name="id" />
-            <field name="name" />
-            <field name="storage" />
-            <field name="sequence" />
+            <field name="name"/>
+            <field name="storage"/>
             <templates>
                 <t t-name="kanban-box">
                     <div style="position: relative">
-                        <a
-                                t-if="! read_only_mode"
-                                type="delete"
-                                style="position: absolute; right: 0; padding: 4px; diplay: inline-block"
-                            >X</a>
+                        <a t-if="! read_only_mode"
+                           type="delete"
+                           style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
                         <div class="oe_module_vignette">
                             <a type="open">
-                              <img
-                                        t-att-alt="record.name"
-                                        t-att-src="kanban_image(
-                                      'base_multi_image.image',
-                                      'image_small',
-                                      record.id.raw_value)"
-                                        class="oe_kanban_image"
-                                    />
+                                <img
+                                    t-att-src="kanban_image(
+                                        'base_multi_image.image',
+                                        'image_small',
+                                        record.id.value)"
+                                    class="oe_kanban_image"/>
                             </a>
                             <div class="oe_module_desc">
-                                <div
-                                        class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border"
-                                    >
+                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
                                     <table class="oe_kanban_table">
                                         <tr>
-                                            <td
-                                                    class="oe_kanban_title1"
-                                                    align="left"
-                                                    valign="middle"
-                                                >
+                                            <td class="oe_kanban_title1"
+                                                align="left"
+                                                valign="middle">
                                                 <h4>
                                                     <a type="open">
-                                                        <field name="name" />
+                                                        <field name="name"/>
                                                     </a>
                                                 </h4>
-                                                <field name="storage" />
+                                                <field name="storage"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -155,9 +128,12 @@
     <field name="name">Multi images</field>
     <field name="res_model">base_multi_image.image</field>
     <field name="view_mode">kanban,tree,form</field>
-    <field name="help">Click to add an image attached to an specific record.</field>
 </record>
 
-<menuitem id="image_menu" action="image_action" parent="base.menu_custom" />
+<menuitem
+    id="image_menu"
+    action="image_action"
+    parent="base.menu_config"/>
 
-</odoo>
+</data>
+</openerp>
