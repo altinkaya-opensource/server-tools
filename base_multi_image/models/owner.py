@@ -1,14 +1,14 @@
+# -*- coding: utf-8 -*-
 # © 2014 Serv. Tecnol. Avanzados (http://www.serviciosbaeza.com)
 #        Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 # © 2015 Antiun Ingeniería S.L. - Jairo Llopis
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models, tools
+from openerp import _, api, fields, models, tools
 
 
 class Owner(models.AbstractModel):
     _name = "base_multi_image.owner"
-    _description = """ Wizard for base multi image """
 
     image_ids = fields.One2many(
         comodel_name='base_multi_image.image',
@@ -35,16 +35,19 @@ class Owner(models.AbstractModel):
     @api.multi
     @api.depends('image_ids')
     def _get_multi_image(self):
-        """Get the main image for this object.
+        """Get a the main image for this object.
 
         This is provided as a compatibility layer for submodels that already
         had one image per record.
         """
         for s in self:
-            first = s.image_ids[:1]
-            s.image_main = first.image_main
-            s.image_main_medium = first.image_medium
-            s.image_main_small = first.image_small
+            s.image_main = False
+            s.image_main_medium = False
+            s.image_main_small = False
+            if s.image_ids:
+                s.image_main = s.image_ids[0].image_main
+                s.image_main_medium = s.image_ids[0].image_medium
+                s.image_main_small = s.image_ids[0].image_small
 
     @api.multi
     def _set_multi_image(self, image=False, name=False):
@@ -90,12 +93,9 @@ class Owner(models.AbstractModel):
 
     @api.multi
     def unlink(self):
-        """Mimic `ondelete="cascade"` for multi images.
-
-        Will be skipped if ``env.context['bypass_image_removal']`` == True
-        """
+        """Mimic `ondelete="cascade"` for multi images."""
         images = self.mapped("image_ids")
         result = super(Owner, self).unlink()
-        if result and not self.env.context.get('bypass_image_removal'):
+        if result:
             images.unlink()
         return result
