@@ -9,157 +9,157 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-12 02:05+0000\n"
 "PO-Revision-Date: 2016-03-09 16:29+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: Russian (http://www.transifex.com/oca/OCA-server-tools-8-0/language/ru/)\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: English (http://www.transifex.com/oca/OCA-server-tools-8-0/language/en/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: base_multi_image
 #: code:addons/base_multi_image/models/image.py:22
 #: sql_constraint:base_multi_image.image:0
 #, python-format
 msgid "A document can have only one image with the same name."
-msgstr ""
+msgstr "A document can have only one image with the same name."
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 #: field:base_multi_image.image,comments:0
 msgid "Comments"
-msgstr ""
+msgstr "Comments"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Created by"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Created on"
 
 #. module: base_multi_image
 #: selection:base_multi_image.image,storage:0
 msgid "Database"
-msgstr ""
+msgstr "Database"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,extension:0
 msgid "File extension"
-msgstr ""
+msgstr "File extension"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Filename"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,id:0 field:base_multi_image.owner,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,path:0 help:base_multi_image.image,path:0
 msgid "Image path"
-msgstr ""
+msgstr "Image path"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,url:0
 msgid "Image remote URL"
-msgstr ""
+msgstr "Image remote URL"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,file_db_store:0
 msgid "Image stored in database"
-msgstr ""
+msgstr "Image stored in database"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,name:0
 msgid "Image title"
-msgstr ""
+msgstr "Image title"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_tree_view
 #: field:base_multi_image.owner,image_ids:0
 msgid "Images"
-msgstr ""
+msgstr "Images"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Last Updated by"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Last Updated on"
 
 #. module: base_multi_image
 #: code:addons/base_multi_image/models/owner.py:73
 #, python-format
 msgid "Main image"
-msgstr ""
+msgstr "Main image"
 
 #. module: base_multi_image
 #: model:ir.actions.act_window,name:base_multi_image.image_action
 #: model:ir.ui.menu,name:base_multi_image.image_menu
 msgid "Multi images"
-msgstr ""
+msgstr "Multi images"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 msgid "Name"
-msgstr "Название"
+msgstr "Name"
 
 #. module: base_multi_image
 #: selection:base_multi_image.image,storage:0
 msgid "OS file"
-msgstr ""
+msgstr "OS file"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 #: field:base_multi_image.image,owner_id:0
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,owner_model:0
 msgid "Owner model"
-msgstr ""
+msgstr "Owner model"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_form_view
 msgid "Preview"
-msgstr ""
+msgstr "Preview"
 
 #. module: base_multi_image
 #: view:base_multi_image.image:base_multi_image.image_kanban_view
 msgid "Product Images"
-msgstr ""
+msgstr "Product Images"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,sequence:0
 msgid "Sequence"
-msgstr ""
+msgstr "Sequence"
 
 #. module: base_multi_image
 #: field:base_multi_image.image,storage:0
 msgid "Storage"
-msgstr ""
+msgstr "Storage"
 
 #. module: base_multi_image
 #: selection:base_multi_image.image,storage:0
 msgid "URL"
-msgstr ""
+msgstr "URL"
