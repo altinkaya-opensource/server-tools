@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # © 2014 Serv. Tecnol. Avanzados (http://www.serviciosbaeza.com)
 #        Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
 # © 2015 Antiun Ingeniería S.L. - Jairo Llopis
@@ -7,16 +8,15 @@
 {
     "name": "Multiple images base",
     "summary": "Allow multiple images for database objects",
-    "version": "16.0.1.0.0",
-    "author": "Tecnativa, "
-    "Antiun Ingeniería, S.L., Sodexis, "
-    "LasLabs, OpenFire, "
-    "Odoo Community Association (OCA)",
+    "version": "9.0.1.1.0",
+    "author": "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
+              "Antiun Ingeniería, S.L., Sodexis, "
+              "Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "website": "https://github.com/OCA/server-tools",
+    "website": "http://www.antiun.com",
     "category": "Tools",
-    "depends": ["base"],
-    "installable": True,
+    "depends": ['base'],
+    'installable': False,
     "data": [
         "security/ir.model.access.csv",
         "views/image_view.xml",
