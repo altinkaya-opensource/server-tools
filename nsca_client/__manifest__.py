@@ -3,20 +3,20 @@
 {
     "name": "NSCA Client",
     "summary": "Send passive alerts to monitor your Odoo application.",
-    "version": "16.0.1.0.0",
+    "version": "11.0.1.0.0",
     "category": "Tools",
-    "website": "https://github.com/OCA/server-tools",
+    "website": "http://github.com/OCA/server-tools",
     "author": "ABF OSIELL, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "depends": ["base"],
     "data": [
         "security/ir.model.access.csv",
         "views/nsca_menu.xml",
         "views/nsca_check.xml",
         "views/nsca_server.xml",
     ],
-    "external_dependencies": {"deb": ["nsca-client"]},
-    "demo": ["demo/demo_data.xml"],
+    "demo": [
+        "demo/demo_data.xml",
+    ],
 }
