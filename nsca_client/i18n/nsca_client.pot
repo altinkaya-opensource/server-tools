@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -66,11 +66,6 @@ msgstr ""
 #. module: nsca_client
 #: model:ir.model.fields,field_description:nsca_client.field_nsca_check__activity_user_type
 msgid "Activity User Type"
-msgstr ""
-
-#. module: nsca_client
-#: model:ir.model.fields,field_description:nsca_client.field_nsca_check__channel_ids
-msgid "Add Channels"
 msgstr ""
 
 #. module: nsca_client
@@ -150,6 +145,25 @@ msgid ""
 msgstr ""
 
 #. module: nsca_client
+#: model:ir.model.fields,help:nsca_client.field_nsca_check__sms_method
+msgid ""
+"Choose method for SMS sending:\n"
+"SMS: mass SMS\n"
+"Post as Message: log on document\n"
+"Post as Note: mass SMS with archives"
+msgstr ""
+
+#. module: nsca_client
+#: model:ir.model.fields,help:nsca_client.field_nsca_check__mail_post_method
+msgid ""
+"Choose method for email sending:\n"
+"EMail: send directly emails\n"
+"Post as Message: post on document and notify followers\n"
+"Post as Note: log a note on document"
+msgstr ""
+
+#. module: nsca_client
+#. odoo-python
 #: code:addons/nsca_client/models/nsca_server.py:0
 #, python-format
 msgid ""
@@ -331,6 +345,7 @@ msgid "Mutually Exclusive Scheduled Actions"
 msgstr ""
 
 #. module: nsca_client
+#. odoo-python
 #: code:addons/nsca_client/models/nsca_check.py:0
 #: model:ir.model,name:nsca_client.model_nsca_check
 #: model_terms:ir.ui.view,arch_db:nsca_client.view_nsca_check_form
@@ -340,9 +355,6 @@ msgstr ""
 
 #. module: nsca_client
 #: model:ir.cron,cron_name:nsca_client.demo_nsca_check_mails_ir_cron
-#: model:ir.cron,name:nsca_client.demo_nsca_check_mails_ir_cron
-#: model:nsca.check,cron_name:nsca_client.demo_nsca_check_mails
-#: model:nsca.check,name:nsca_client.demo_nsca_check_mails
 msgid "NSCA Check - Odoo Mail Queue"
 msgstr ""
 
@@ -449,8 +461,23 @@ msgid "Responsible"
 msgstr ""
 
 #. module: nsca_client
+#: model:ir.model.fields,field_description:nsca_client.field_nsca_check__sms_template_id
+msgid "SMS Template"
+msgstr ""
+
+#. module: nsca_client
 #: model:ir.model.fields,field_description:nsca_client.field_nsca_check__user_id
 msgid "Scheduler User"
+msgstr ""
+
+#. module: nsca_client
+#: model:ir.model.fields,field_description:nsca_client.field_nsca_check__mail_post_method
+msgid "Send as"
+msgstr ""
+
+#. module: nsca_client
+#: model:ir.model.fields,field_description:nsca_client.field_nsca_check__sms_method
+msgid "Send as (SMS)"
 msgstr ""
 
 #. module: nsca_client
@@ -504,6 +531,11 @@ msgid ""
 msgstr ""
 
 #. module: nsca_client
+#: model:ir.model.fields,field_description:nsca_client.field_nsca_check__mail_post_autofollow
+msgid "Subscribe Recipients"
+msgstr ""
+
+#. module: nsca_client
 #: model:ir.model.fields,field_description:nsca_client.field_nsca_check__activity_summary
 msgid "Summary"
 msgstr ""
@@ -516,11 +548,6 @@ msgstr ""
 #. module: nsca_client
 #: model:ir.model.fields,field_description:nsca_client.field_nsca_check__crud_model_name
 msgid "Target Model Name"
-msgstr ""
-
-#. module: nsca_client
-#: model:ir.model.fields,help:nsca_client.field_nsca_check__activity_user_field_name
-msgid "Technical name of the user on the record"
 msgstr ""
 
 #. module: nsca_client
@@ -549,12 +576,13 @@ msgstr ""
 msgid ""
 "Type of server action. The following values are available:\n"
 "- 'Execute Python Code': a block of python code that will be executed\n"
-"- 'Create': create a new record with new values\n"
+"- 'Create a new Record': create a new record with new values\n"
 "- 'Update a Record': update the values of a record\n"
 "- 'Execute several actions': define an action that triggers several other server actions\n"
-"- 'Send Email': automatically send an email (Discuss)\n"
+"- 'Send Email': post a message, a note or send an email (Discuss)\n"
 "- 'Add Followers': add followers to a record (Discuss)\n"
-"- 'Create Next Activity': create an activity (Discuss)"
+"- 'Create Next Activity': create an activity (Discuss)\n"
+"- 'Send SMS Text Message': send SMS, log them on documents (SMS)"
 msgstr ""
 
 #. module: nsca_client
