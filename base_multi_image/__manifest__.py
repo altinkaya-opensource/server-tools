@@ -10,7 +10,8 @@
     "version": "16.0.1.0.0",
     "author": "Tecnativa, "
     "Antiun Ingeniería, S.L., Sodexis, "
-    "LasLabs, OpenFire, "
+    "LasLabs, "
+    "Yigit Budak, "
     "Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/server-tools",

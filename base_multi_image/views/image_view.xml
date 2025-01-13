@@ -11,35 +11,68 @@
                     <group
                             string="Owner"
                             attrs="{
-                                'invisible': [
-                                    ('show_technical', '=', False),
-                                ],
-                            }"
+                            'invisible': [
+                                ('show_technical', '=', False),
+                            ],
+                        }"
                         >
                         <field name="show_technical" invisible="True" />
                         <field name="owner_model" />
                         <field name="owner_id" />
                         <field name="owner_ref_id" />
+                        <field name="sequence" />
                     </group>
-                    <group string="Image">
+                    <group string="Name">
                         <field name="name" />
-                        <field
-                                name="image_1920"
-                                widget="image"
-                                class="oe_avatar"
-                                nolabel="1"
-                                colspan="2"
-                                options="{'preview_image': 'image_128'}"
-                            />
-                        <field name="image_128" invisible="1" />
-                        <field name="load_from" />
+                        <field name="storage" />
+                        <field name="extension" />
                     </group>
                 </group>
-                <group string="Options" name="option">
-                    <field name="sequence" />
+                <group>
+                    <group string="Options">
+                        <field
+                                name="url"
+                                attrs="{
+                                'invisible': [('storage', '!=', 'url')],
+                                'required': [('storage', '=', 'url')],
+                            }"
+                                widget="url"
+                            />
+                        <field
+                                name="path"
+                                attrs="{
+                                'invisible': [('storage', '!=', 'file')],
+                                'required': [('storage', '=', 'file')],
+                            }"
+                            />
+                        <field name="filename" invisible="1" />
+                        <field
+                                name="file_db_store"
+                                attrs="{
+                                'invisible': [('storage', '!=', 'db')],
+                                'required': [('storage', '=', 'db')],
+                            }"
+                                filename="filename"
+                            />
+                        <field
+                                name="attachment_id"
+                                attrs="{
+                                'invisible': [('storage', '!=', 'filestore')],
+                                'required': [('storage', '=', 'filestore')],
+                            }"
+                            />
+                    </group>
+                    <group string="Preview">
+                        <field
+                                name="image_medium"
+                                widget="image"
+                                readonly="True"
+                                nolabel="1"
+                            />
+                    </group>
                 </group>
                 <group string="Comments">
-                    <field name="comments" colspan="2" nolabel="1" />
+                    <field name="comments" nolabel="1" />
                 </group>
             </sheet>
         </form>
@@ -52,6 +85,7 @@
     <field name="arch" type="xml">
         <tree>
             <field name="name" />
+            <field name="storage" />
             <field name="owner_model" />
             <field name="owner_id" />
             <field name="sequence" invisible="True" />
@@ -60,12 +94,13 @@
 </record>
 
 <record id="image_kanban_view" model="ir.ui.view">
-    <field name="name">Multi image kanban</field>
+    <field name="name">Product multi image kanban</field>
     <field name="model">base_multi_image.image</field>
     <field name="arch" type="xml">
-        <kanban string="Images">
+        <kanban string="Product Images">
             <field name="id" />
             <field name="name" />
+            <field name="storage" />
             <field name="sequence" />
             <templates>
                 <t t-name="kanban-box">
@@ -77,12 +112,12 @@
                             >X</a>
                         <div class="oe_module_vignette">
                             <a type="open">
-                                <img
+                              <img
                                         t-att-alt="record.name"
                                         t-att-src="kanban_image(
-                                            'base_multi_image.image',
-                                            'image_128',
-                                            record.id.raw_value)"
+                                      'base_multi_image.image',
+                                      'image_small',
+                                      record.id.raw_value)"
                                         class="oe_kanban_image"
                                     />
                             </a>
@@ -90,7 +125,7 @@
                                 <div
                                         class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border"
                                     >
-                                    <table class="oe_kanban_table" name="main_table">
+                                    <table class="oe_kanban_table">
                                         <tr>
                                             <td
                                                     class="oe_kanban_title1"
@@ -102,6 +137,7 @@
                                                         <field name="name" />
                                                     </a>
                                                 </h4>
+                                                <field name="storage" />
                                             </td>
                                         </tr>
                                     </table>
