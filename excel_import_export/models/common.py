@@ -112,6 +112,10 @@ def fill_cell_style(field, field_style, styles):
             field.fill = cell_style
         if key == "align":
             field.alignment = cell_style
+        if key == "vert_align":
+            field.alignment = cell_style
+        if key == "border":
+            field.border = cell_style
         if key == "style":
             if value == "text":
                 try:
