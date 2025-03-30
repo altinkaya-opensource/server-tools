@@ -14,5 +14,5 @@ class Base(models.AbstractModel):
         try:
             remote_addr = http.request.httprequest.remote_addr
         except (KeyError, AttributeError, RuntimeError):
-            return self.env["res.remote"]
+            return self.env["res.remote"]._get_remote("127.0.0.1")
         return self.env["res.remote"]._get_remote(remote_addr)
