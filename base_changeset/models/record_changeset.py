@@ -10,6 +10,7 @@ class RecordChangeset(models.Model):
     _description = "Record Changeset"
     _order = "date desc"
     _rec_name = "date"
+    _inherit = ["tier.validation"]
 
     model = fields.Char(index=True, required=True, readonly=True)
     res_id = fields.Many2oneReference(
@@ -44,6 +45,37 @@ class RecordChangeset(models.Model):
     record_id = fields.Reference(
         selection="_reference_models", compute="_compute_resource_record", readonly=True
     )
+    
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+
+        admin_group = self.env.ref('base.group_system')
+        admin_users = self.env['res.users'].search([
+            ('groups_id', 'in', admin_group.id)
+        ])
+
+        definition = self.env['tier.definition'].search([
+            ('model', '=', 'record.changeset'),
+            ('active', '=', True)
+        ], limit=1)
+
+        review_vals = []
+        for record in records:
+            for admin in admin_users:
+                review_vals.append({
+                    'model': 'record.changeset',
+                    'res_id': record.id,
+                    'requested_by': admin.id,
+                    'reviewer_id': admin.id,
+                    'status': 'pending',
+                    'definition_id': definition.id if definition else False,
+                })
+
+        if review_vals:
+            self.env['tier.review'].create(review_vals)
+
+        return records
 
     @api.depends("model", "res_id")
     def _compute_resource_record(self):
@@ -63,6 +95,29 @@ class RecordChangeset(models.Model):
                 rec.state = "done"
             else:
                 rec.state = "draft"
+    
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     records = super().create(vals_list)
+
+    #     admin_group = self.env.ref('base.group_system')
+
+    #     admin_users = self.env['res.users'].search([
+    #         ('groups_id', 'in', [admin_group.id])
+    #     ])
+
+    #     for admin in admin_users:
+    #         self.env['bus.bus']._sendone(
+    #             admin.partner_id,
+    #             'record.changeset/pending',
+    #             {
+    #                 'count': len(records),
+    #                 'model': records[0].model,
+    #                 'res_id': records[0].res_id,
+    #             }
+    #         )
+
+    #     return records
 
     def name_get(self):
         result = []
@@ -73,9 +128,27 @@ class RecordChangeset(models.Model):
 
     def apply(self):
         self.with_context(skip_pending_status_check=True).mapped("change_ids").apply()
+        
+        for changeset in self:
+            reviews = self.env['tier.review'].search([
+                ('model', '=', 'record.changeset'),
+                ('res_id', '=', changeset.id),
+                ('status', '=', 'pending'),
+            ])
+            for review in reviews:
+                review.status = 'approved'
 
     def cancel(self):
         self.with_context(skip_pending_status_check=True).mapped("change_ids").cancel()
+        
+        for changeset in self:
+            reviews = self.env['tier.review'].search([
+                ('model', '=', 'record.changeset'),
+                ('res_id', '=', changeset.id),
+                ('status', '=', 'pending'),
+            ])
+            for review in reviews:
+                review.status = 'rejected'
 
     @api.model
     def add_changeset(self, record, values, create=False):

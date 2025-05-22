@@ -10,7 +10,7 @@
     "maintainers": ["astirpe"],
     "license": "AGPL-3",
     "category": "Tools",
-    "depends": ["web"],
+    "depends": ["web", "base_tier_validation", "bus"],
     "website": "https://github.com/OCA/server-tools",
     "data": [
         "security/groups.xml",
@@ -20,6 +20,7 @@
         "views/record_changeset_change_views.xml",
         "views/changeset_field_rule_views.xml",
         "views/menu.xml",
+        "views/record_changeset_tier_definition.xml",
     ],
     "assets": {
         "web.assets_backend": [
