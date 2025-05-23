@@ -40,14 +40,14 @@ addon | version | maintainers | summary
 [base_multi_image](base_multi_image/) | 16.0.1.0.1 |  | Allow multiple images for database objects
 [base_name_search_improved](base_name_search_improved/) | 16.0.1.0.2 |  | Friendlier search when typing in relation fields
 [base_partition](base_partition/) | 16.0.1.0.0 |  | Base module that provide the partition method on all models
-[base_remote](base_remote/) | 16.0.1.0.2 |  | Remote Base
+[base_remote](base_remote/) | 16.0.1.0.3 |  | Remote Base
 [base_search_fuzzy](base_search_fuzzy/) | 16.0.1.0.0 |  | Fuzzy search with the PostgreSQL trigram extension
 [base_sequence_default](base_sequence_default/) | 16.0.1.0.2 | [![Shide](https://github.com/Shide.png?size=30px)](https://github.com/Shide) [![yajo](https://github.com/yajo.png?size=30px)](https://github.com/yajo) [![rafaelbn](https://github.com/rafaelbn.png?size=30px)](https://github.com/rafaelbn) | Use sequences for default values of fields when creating a new record
 [base_sequence_option](base_sequence_option/) | 16.0.1.0.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Alternative sequence options for specific models
 [base_sparse_field_list_support](base_sparse_field_list_support/) | 16.0.1.0.0 |  | add list support to convert_to_cache()
 [base_technical_user](base_technical_user/) | 16.0.1.0.0 |  | Add a technical user parameter on the company
 [base_time_window](base_time_window/) | 16.0.1.1.0 |  | Base model to handle time windows
-[base_view_inheritance_extension](base_view_inheritance_extension/) | 16.0.1.2.1 |  | Adds more operators for view inheritance
+[base_view_inheritance_extension](base_view_inheritance_extension/) | 16.0.1.2.2 |  | Adds more operators for view inheritance
 [bus_alt_connection](bus_alt_connection/) | 16.0.1.0.0 |  | Needed when using PgBouncer as a connection pooler
 [cron_daylight_saving_time_resistant](cron_daylight_saving_time_resistant/) | 16.0.1.0.1 | [![florian-dacosta](https://github.com/florian-dacosta.png?size=30px)](https://github.com/florian-dacosta) | Run cron on fixed hours
 [database_cleanup](database_cleanup/) | 16.0.1.2.1 |  | Database cleanup
@@ -56,7 +56,7 @@ addon | version | maintainers | summary
 [excel_import_export](excel_import_export/) | 16.0.1.3.1 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Base module for developing Excel import/export/report
 [excel_import_export_demo](excel_import_export_demo/) | 16.0.1.1.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Excel Import/Export/Report Demo
 [excel_import_export_unidecode](excel_import_export_unidecode/) | 16.0.1.0.1 |  | Add unidecode option to excel import/export/report
-[fetchmail_attach_from_folder](fetchmail_attach_from_folder/) | 16.0.1.5.0 | [![NL66278](https://github.com/NL66278.png?size=30px)](https://github.com/NL66278) | Attach mails in an IMAP folder to existing objects
+[fetchmail_attach_from_folder](fetchmail_attach_from_folder/) | 16.0.1.6.0 | [![NL66278](https://github.com/NL66278.png?size=30px)](https://github.com/NL66278) | Attach mails in an IMAP folder to existing objects
 [html_text](html_text/) | 16.0.1.0.1 |  | Generate excerpts from any HTML field
 [iap_alternative_provider](iap_alternative_provider/) | 16.0.1.0.0 | [![sebastienbeau](https://github.com/sebastienbeau.png?size=30px)](https://github.com/sebastienbeau) | Base module for providing alternative provider for iap apps
 [jsonifier](jsonifier/) | 16.0.0.1.0 |  | JSON-ify data for all models
@@ -67,6 +67,7 @@ addon | version | maintainers | summary
 [nsca_client](nsca_client/) | 16.0.1.0.0 |  | Send passive alerts to monitor your Odoo application.
 [odoo_test_xmlrunner](odoo_test_xmlrunner/) | 16.0.1.0.0 |  | This module override Odoo testing method to run them with xmlrunner tool.
 [onchange_helper](onchange_helper/) | 16.0.1.0.0 |  | Technical module that ease execution of onchange in Python code
+[postgres_vacuum](postgres_vacuum/) | 16.0.1.0.0 |  | Vacuum or analyze Odoo's database tables
 [rpc_helper](rpc_helper/) | 16.0.1.0.0 | [![simahawk](https://github.com/simahawk.png?size=30px)](https://github.com/simahawk) | Helpers for disabling RPC calls
 [scheduler_error_mailer](scheduler_error_mailer/) | 16.0.1.0.0 |  | Scheduler Error Mailer
 [sentry](sentry/) | 16.0.3.0.3 | [![barsi](https://github.com/barsi.png?size=30px)](https://github.com/barsi) [![naglis](https://github.com/naglis.png?size=30px)](https://github.com/naglis) [![versada](https://github.com/versada.png?size=30px)](https://github.com/versada) [![moylop260](https://github.com/moylop260.png?size=30px)](https://github.com/moylop260) [![fernandahf](https://github.com/fernandahf.png?size=30px)](https://github.com/fernandahf) | Report Odoo errors to Sentry
