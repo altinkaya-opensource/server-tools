@@ -13,8 +13,9 @@ class MailThread(models.AbstractModel):
     def message_route(
         self, message, message_dict, model=None, thread_id=None, custom_values=None
     ):
+        res = []
         try:
-            res = super(MailThread, self).message_route(
+            res = super().message_route(
                 message,
                 message_dict,
                 model=model,
@@ -32,12 +33,5 @@ class MailThread(models.AbstractModel):
             )
             if not fetchmail_server.error_notice_template_id:
                 raise ve
-            # We can force_send here even if there are alot of emails
-            # because after every mail the transaction gets committed
-            # (see fetchmail.server.fetch_mail())
-            # https://github.com/OCA/server-tools/pull/2574#issuecomment-1547503682
-            fetchmail_server.error_notice_template_id.send_mail(
-                fetchmail_server.id, force_send=True
-            )
-            raise ve
+            fetchmail_server.error_notice_template_id.send_mail(fetchmail_server.id)
         return res

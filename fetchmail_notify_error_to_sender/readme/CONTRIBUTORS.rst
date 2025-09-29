@@ -4,4 +4,3 @@
 * Nedas Zilinskas <nedas.zilinskas@xpansa.com> (Ventor, Xpansa Group <https://ventor.tech/>)
 * Denis Valenchyts <denis@ventor.tech> (VentorTech OU <https://ventor.tech>)
 * Helly kapatel <helly.kapatel@initos.com>
-* Dhara Solanki <dhara.solanki@initos.com>
