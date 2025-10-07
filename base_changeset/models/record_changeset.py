@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 
 class RecordChangeset(models.Model):
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _name = "record.changeset"
     _description = "Record Changeset"
     _order = "date desc"
@@ -45,6 +46,32 @@ class RecordChangeset(models.Model):
         selection="_reference_models", compute="_compute_resource_record", readonly=True
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        changesets = super().create(vals_list)
+        MailActivity = self.env["mail.activity"]
+        for ch in changesets:
+            record_name = (
+                ch.record_id.display_name
+                if hasattr(ch.record_id, "display_name")
+                else ch.record_id._name
+            )
+
+            users_to_notify = ch.mapped("change_ids.rule_id.validator_group_ids.users")
+            for user in users_to_notify:
+                MailActivity.sudo().create(
+                    {
+                        "res_model_id": self.env["ir.model"].sudo()._get(ch._name).id,
+                        "res_id": ch.id,
+                        "activity_type_id": self.env.ref(
+                            "mail.mail_activity_data_todo"
+                        ).id,
+                        "user_id": user.id,
+                        "summary": f"Changeset to validate: {record_name}",
+                    }
+                )
+        return changesets
+
     @api.depends("model", "res_id")
     def _compute_resource_record(self):
         for changeset in self:
@@ -73,9 +100,11 @@ class RecordChangeset(models.Model):
 
     def apply(self):
         self.with_context(skip_pending_status_check=True).mapped("change_ids").apply()
+        self.activity_ids.unlink()
 
     def cancel(self):
         self.with_context(skip_pending_status_check=True).mapped("change_ids").cancel()
+        self.activity_ids.unlink()
 
     @api.model
     def add_changeset(self, record, values, create=False):

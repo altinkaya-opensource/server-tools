@@ -70,39 +70,43 @@
                             <field name="modified_by_id" />
                         </group>
                     </group>
-                    <group string="Changes">
-                        <field name="change_ids" nolabel="1">
-                            <tree>
-                                <field name="field_id" context="{'no_open': True}" />
-                                <field name="field_type" invisible="1" />
-                                <field name="origin_value_display" string="Previous" />
-                                <field name="new_value_display" />
-                                <field name="state" />
-                                <field
-                                    name="user_can_validate_changeset"
-                                    invisible="1"
-                                />
-                                <button
-                                    name="apply"
-                                    string="Apply"
-                                    type="object"
-                                    icon="fa-plus-circle"
-                                    attrs="{'invisible': [('user_can_validate_changeset', '=', False)]}"
-                                />
-                                <button
-                                    name="cancel"
-                                    string="Reject"
-                                    type="object"
-                                    icon="fa-times"
-                                    attrs="{'invisible': [('user_can_validate_changeset', '=', False)]}"
-                                />
-                            </tree>
-                        </field>
-                    </group>
+                    <label for="change_ids" string="Changes" class="oe_title" />
+                    <field name="change_ids" nolabel="1">
+                        <tree>
+                            <field name="field_id" context="{'no_open': True}" />
+                            <field name="field_type" invisible="1" />
+                            <field name="origin_value_display" string="Previous" />
+                            <field name="new_value_display" />
+                            <field name="state" />
+                            <field
+                                name="user_can_validate_changeset"
+                                invisible="1"
+                            />
+                            <button
+                                name="apply"
+                                string="Apply"
+                                type="object"
+                                icon="fa-plus-circle"
+                                attrs="{'invisible': [('user_can_validate_changeset', '=', False)]}"
+                            />
+                            <button
+                                name="cancel"
+                                string="Reject"
+                                type="object"
+                                icon="fa-times"
+                                attrs="{'invisible': [('user_can_validate_changeset', '=', False)]}"
+                            />
+                        </tree>
+                    </field>
                     <group>
                         <field name="note" />
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>

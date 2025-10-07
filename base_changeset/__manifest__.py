@@ -10,7 +10,7 @@
     "maintainers": ["astirpe"],
     "license": "AGPL-3",
     "category": "Tools",
-    "depends": ["web"],
+    "depends": ["web", "mail"],
     "website": "https://github.com/OCA/server-tools",
     "data": [
         "security/groups.xml",
