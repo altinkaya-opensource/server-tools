@@ -180,8 +180,8 @@ class Image(models.Model):
     def _make_name_pretty(self, name):
         return name.replace("_", " ").capitalize()
 
-    @api.onchange("filename")
-    def _onchange_filename(self):
-        if self.filename:
-            self.name = os.path.splitext(self.filename)[0]
-            self.name = self._make_name_pretty(self.name)
+    # @api.onchange("filename")
+    # def _onchange_filename(self):
+    #     if self.filename:
+    #         self.name = os.path.splitext(self.filename)[0]
+    #         self.name = self._make_name_pretty(self.name)
