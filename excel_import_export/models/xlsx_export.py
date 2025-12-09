@@ -231,7 +231,13 @@ class XLSXExport(models.AbstractModel):
                     new_rc = "{}{}".format(col, new_row)
                     row_val = co.adjust_cell_formula(row_val, i)
                     if row_val not in ("None", None):
-                        st[new_rc] = co.str_to_number(row_val)
+                        # Skip str_to_number conversion if style=text.
+                        # This was lead to issues like leading zero lost, large number
+                        # converted to scientific format, etc.
+                        if style and "style=text" in style:
+                            st[new_rc] = row_val
+                        else:
+                            st[new_rc] = co.str_to_number(row_val)
                     if style:
                         styles = self.env["xlsx.styles"].get_openpyxl_styles()
                         co.fill_cell_style(st[new_rc], style, styles)
