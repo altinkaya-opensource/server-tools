@@ -321,6 +321,30 @@ class TestAuditlogFull(AuditLogRuleCommon, AuditlogCommon):
         self.groups_rule.unlink()
         super(TestAuditlogFull, self).tearDown()
 
+    def test_update_logs_have_lines_with_changes(self):
+        self.groups_rule.subscribe()
+        initial_value = "test-group-1"
+        new_value = "test-group-2"
+        group = self.env["res.groups"].create({"name": initial_value})
+        group.write(
+            {
+                "name": new_value,
+            }
+        )
+        log = self.env["auditlog.log"].search(
+            [
+                ("model_id", "=", self.groups_model_id),
+                ("method", "=", "write"),
+                ("res_id", "=", group.id),
+            ]
+        )
+        self.assertEqual(len(log), 1)
+        self.assertEqual(len(log.line_ids), 1)
+        log_line = log.line_ids[0]
+        self.assertEqual(log_line.field_name, "name")
+        self.assertEqual(log_line.old_value, initial_value)
+        self.assertEqual(log_line.new_value, new_value)
+
 
 class TestAuditlogFast(AuditLogRuleCommon, AuditlogCommon):
     def setUp(self):
@@ -341,6 +365,61 @@ class TestAuditlogFast(AuditLogRuleCommon, AuditlogCommon):
     def tearDown(self):
         self.groups_rule.unlink()
         super(TestAuditlogFast, self).tearDown()
+
+
+class TestAuditlogFastWriteEmptyValue(AuditLogRuleCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.test_model = cls.env["ir.model"].search([("model", "=", "res.partner")])
+        cls.auditlog_rule = cls.create_rule(
+            {
+                "name": "test.model_res_partner",
+                "model_id": cls.test_model.id,
+                "log_type": "fast",
+                "log_read": False,
+                "log_create": False,
+                "log_write": True,
+                "log_unlink": False,
+            }
+        )
+        cls.test_record = (
+            cls.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "testpartner3",
+                    "phone": "123",
+                }
+            )
+        )
+        cls.auditlog_rule.subscribe()
+
+    def assert_has_one_log_line_with_empty_values(self):
+        logs = self.env["auditlog.log"].search(
+            [
+                ("res_id", "=", self.test_record.id),
+                ("model_id", "=", self.test_model.id),
+            ]
+        )
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].model_name, "Contact")
+        self.assertEqual(logs[0].model_model, "res.partner")
+        log_lines = logs.mapped("line_ids")
+        self.assertEqual(len(log_lines), 1)
+        self.assertEqual(log_lines[0].field_name, "phone")
+        self.assertFalse(log_lines[0].old_value)
+        self.assertFalse(log_lines[0].old_value_text)
+        self.assertFalse(log_lines[0].new_value)
+        self.assertFalse(log_lines[0].new_value_text)
+
+    def test_when_removing_field_value_a_log_line_is_created(self):
+        self.test_record.write({"phone": False})
+        self.assert_has_one_log_line_with_empty_values()
+
+    def test_when_using_none_field_value_a_log_line_is_created(self):
+        self.test_record.write({"phone": None})
+        self.assert_has_one_log_line_with_empty_values()
 
 
 class TestFieldRemoval(AuditLogRuleCommon):

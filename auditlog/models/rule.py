@@ -91,6 +91,19 @@ class ThrowAwayCache:
         self._transaction.tocompute = self._original_tocompute
 
 
+class _Sentinel:
+    """A falsy sentinel object as a placeholder for absent values."""
+
+    def __str__(self):
+        return ""
+
+    def __bool__(self):
+        return False
+
+
+_SENTINEL = _Sentinel()
+
+
 class AuditlogRule(models.Model):
     _name = "auditlog.rule"
     _description = "Auditlog - Rule"
@@ -485,6 +498,8 @@ class AuditlogRule(models.Model):
             if self.env.user in users_to_exclude:
                 return result
 
+            self.flush_recordset([field_name for field_name in vals.keys()])
+
             with ThrowAwayCache(self.env):
                 new_values = {d["id"]: d for d in records_write.read(fields_list)}
 
@@ -506,7 +521,7 @@ class AuditlogRule(models.Model):
             # afterwards as it could not represent the real state
             # of the data in the database
             vals2 = dict(vals)
-            old_vals2 = dict.fromkeys(list(vals2.keys()), False)
+            old_vals2 = dict.fromkeys(list(vals2.keys()), _SENTINEL)
             old_values = {id_: old_vals2 for id_ in self.ids}
             new_values = {id_: vals2 for id_ in self.ids}
             result = write_fast.origin(self, vals, **kwargs)
