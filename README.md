@@ -56,7 +56,7 @@ addon | version | maintainers | summary
 [base_view_inheritance_extension](base_view_inheritance_extension/) | 16.0.1.2.2 |  | Adds more operators for view inheritance
 [bus_alt_connection](bus_alt_connection/) | 16.0.1.0.0 |  | Needed when using PgBouncer as a connection pooler
 [cron_daylight_saving_time_resistant](cron_daylight_saving_time_resistant/) | 16.0.1.0.1 | <a href='https://github.com/florian-dacosta'><img src='https://github.com/florian-dacosta.png' width='32' height='32' style='border-radius:50%;' alt='florian-dacosta'/></a> | Run cron on fixed hours
-[database_cleanup](database_cleanup/) | 16.0.1.2.2 |  | Database cleanup
+[database_cleanup](database_cleanup/) | 16.0.2.0.0 |  | Database cleanup
 [datetime_formatter](datetime_formatter/) | 16.0.1.0.0 |  | Helper functions to give correct format to date[time] fields
 [dbfilter_from_header](dbfilter_from_header/) | 16.0.1.0.1 |  | Filter databases with HTTP headers
 [excel_import_export](excel_import_export/) | 16.0.1.3.2 | <a href='https://github.com/kittiu'><img src='https://github.com/kittiu.png' width='32' height='32' style='border-radius:50%;' alt='kittiu'/></a> | Base module for developing Excel import/export/report
@@ -88,7 +88,7 @@ addon | version | maintainers | summary
 [session_db](session_db/) | 16.0.1.0.7 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Store sessions in DB
 [test_auditlog](test_auditlog/) | 16.0.1.0.2 |  | Additional unit tests for Audit Log based on accounting models
 [tracking_manager](tracking_manager/) | 16.0.1.1.10 | <a href='https://github.com/Kev-Roche'><img src='https://github.com/Kev-Roche.png' width='32' height='32' style='border-radius:50%;' alt='Kev-Roche'/></a> <a href='https://github.com/sebastienbeau'><img src='https://github.com/sebastienbeau.png' width='32' height='32' style='border-radius:50%;' alt='sebastienbeau'/></a> | This module tracks all fields of a model, including one2many and many2many ones.
-[upgrade_analysis](upgrade_analysis/) | 16.0.1.2.1 | <a href='https://github.com/StefanRijnhart'><img src='https://github.com/StefanRijnhart.png' width='32' height='32' style='border-radius:50%;' alt='StefanRijnhart'/></a> <a href='https://github.com/legalsylvain'><img src='https://github.com/legalsylvain.png' width='32' height='32' style='border-radius:50%;' alt='legalsylvain'/></a> | Performs a difference analysis between modules installed on two different Odoo instances
+[upgrade_analysis](upgrade_analysis/) | 16.0.1.2.4 | <a href='https://github.com/StefanRijnhart'><img src='https://github.com/StefanRijnhart.png' width='32' height='32' style='border-radius:50%;' alt='StefanRijnhart'/></a> <a href='https://github.com/legalsylvain'><img src='https://github.com/legalsylvain.png' width='32' height='32' style='border-radius:50%;' alt='legalsylvain'/></a> | Performs a difference analysis between modules installed on two different Odoo instances
 [url_attachment_search_fuzzy](url_attachment_search_fuzzy/) | 16.0.1.0.0 | <a href='https://github.com/mariadforgelow'><img src='https://github.com/mariadforgelow.png' width='32' height='32' style='border-radius:50%;' alt='mariadforgelow'/></a> | Fuzzy Search of URL in Attachments
 
 [//]: # (end addons)
