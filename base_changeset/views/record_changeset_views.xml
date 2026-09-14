@@ -78,10 +78,7 @@
                             <field name="origin_value_display" string="Previous" />
                             <field name="new_value_display" />
                             <field name="state" />
-                            <field
-                                name="user_can_validate_changeset"
-                                invisible="1"
-                            />
+                            <field name="user_can_validate_changeset" invisible="1" />
                             <button
                                 name="apply"
                                 string="Apply"
@@ -103,9 +100,9 @@
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
                 </div>
             </form>
         </field>
