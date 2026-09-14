@@ -76,12 +76,22 @@ def get_sentry_logging(level=DEFAULT_LOG_LEVEL):
     )
 
 
+def renamed_option(new_key, old_key, converter=None):
+    """An option sentry-sdk renamed after 1.9.0, under the installed SDK's name.
+
+    ``sentry_sdk.init`` rejects the other name, and reading the missing key from
+    ``DEFAULT_OPTIONS`` raised KeyError at server start once the SDK was upgraded.
+    """
+    key = new_key if new_key in DEFAULT_OPTIONS else old_key
+    return SentryOption(key, DEFAULT_OPTIONS[key], converter)
+
+
 def get_sentry_options():
     res = [
         SentryOption("dsn", "", str.strip),
         SentryOption("transport", DEFAULT_OPTIONS["transport"], select_transport),
         SentryOption("logging_level", DEFAULT_LOG_LEVEL, get_sentry_logging),
-        SentryOption("with_locals", DEFAULT_OPTIONS["with_locals"], None),
+        renamed_option("include_local_variables", "with_locals"),
         SentryOption(
             "max_breadcrumbs", DEFAULT_OPTIONS["max_breadcrumbs"], to_int_if_defined
         ),
@@ -107,7 +117,7 @@ def get_sentry_options():
         SentryOption("http_proxy", DEFAULT_OPTIONS["http_proxy"], None),
         SentryOption("https_proxy", DEFAULT_OPTIONS["https_proxy"], None),
         SentryOption("ignore_exceptions", DEFAULT_IGNORED_EXCEPTIONS, split_multiple),
-        SentryOption("request_bodies", DEFAULT_OPTIONS["request_bodies"], None),
+        renamed_option("max_request_body_size", "request_bodies"),
         SentryOption("attach_stacktrace", DEFAULT_OPTIONS["attach_stacktrace"], None),
         SentryOption("ca_certs", DEFAULT_OPTIONS["ca_certs"], None),
         SentryOption("propagate_traces", DEFAULT_OPTIONS["propagate_traces"], None),
