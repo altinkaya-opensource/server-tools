@@ -5,7 +5,10 @@ import logging
 import warnings
 from collections import abc
 
+import psycopg2.errors
+
 import odoo.http
+from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
 from odoo.service.server import server
 from odoo.tools import config as odoo_config
 
@@ -31,6 +34,20 @@ except ImportError:  # pragma: no cover
                         Please make sure it is installed."
     )  # pragma: no cover
 
+# odoo.sql_db logs every failed query as "bad query" before raising it. On these
+# errors the caller retries: HTTP and RPC requests, websocket messages and queue
+# jobs. A retry that runs out, or a cron that fails on one, is reported on its own.
+RETRIED_QUERY_ERRORS = tuple(
+    psycopg2.errors.lookup(code) for code in PG_CONCURRENCY_ERRORS_TO_RETRY
+)
+
+
+def is_retried_query_error(record):
+    """Tell whether a log record is the "bad query" line of an error Odoo retries."""
+    return record.name == "odoo.sql_db" and any(
+        isinstance(arg, RETRIED_QUERY_ERRORS) for arg in record.args or ()
+    )
+
 
 def before_send(event, hint):
     """Prevent the capture of any exceptions in
@@ -41,6 +58,8 @@ def before_send(event, hint):
 
     exc_info = hint.get("exc_info")
     if exc_info is None and "log_record" in hint:
+        if is_retried_query_error(hint["log_record"]):
+            return None
         # Odoo handles UserErrors by logging the raw exception rather
         # than a message string in odoo/http.py
         try:

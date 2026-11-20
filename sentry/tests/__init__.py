@@ -2,3 +2,4 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import test_client, test_logutils
+from . import test_retried_query_errors
