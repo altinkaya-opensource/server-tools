@@ -53,6 +53,9 @@ def before_send(event, hint):
         if qualified_name in const.DEFAULT_IGNORED_EXCEPTIONS:
             return None
 
+    if exc_info and is_rpc_caller_error(event, exc_info[1]):
+        return None
+
     if event.setdefault("tags", {})["include_context"]:
         cxtest = get_extra_context(odoo.http.request)
         info_request = ["tags", "user", "extra", "request"]
@@ -65,6 +68,19 @@ def before_send(event, hint):
     raven_processor.process(event)
 
     return event
+
+
+def is_rpc_caller_error(event, error):
+    """Tell whether an external XML-RPC or JSON-RPC call failed on the caller's
+    own mistake. The web client and the mobile app use /web/dataset, so their
+    errors are still sent."""
+    url = (event.get("request") or {}).get("url") or ""
+    if not ("/xmlrpc/" in url or url.endswith("/jsonrpc")):
+        return False
+    return any(
+        isinstance(error, error_type) and text in str(error)
+        for error_type, text in const.RPC_CALLER_ERRORS
+    )
 
 
 def get_odoo_commit(odoo_dir):
