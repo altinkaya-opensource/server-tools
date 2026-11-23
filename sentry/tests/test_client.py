@@ -5,15 +5,16 @@ import logging
 import sys
 from unittest.mock import patch
 
+import psycopg2
 from sentry_sdk.integrations.logging import _IGNORED_LOGGERS
 from sentry_sdk.transport import HttpTransport
 
 from odoo import exceptions
-from odoo.tests import TransactionCase
+from odoo.tests import TransactionCase, tagged
 from odoo.tools import config
 
 from ..const import to_int_if_defined
-from ..hooks import initialize_sentry
+from ..hooks import before_send, initialize_sentry
 
 GIT_SHA = "d670460b4b4aece5915caf5c68d12f560a9fe3e4"
 RELEASE = "test@1.2.3"
@@ -253,3 +254,53 @@ class TestClientSetup(TransactionCase):
             RELEASE,
             "Failed to use 'sentry_release' parameter appropriately",
         )
+
+
+@tagged("post_install", "-at_install")
+class TestRpcCallerErrors(TransactionCase):
+    def send(self, path, error):
+        """Pass an error raised while serving `path` to before_send."""
+        event = {
+            "tags": {"include_context": False},
+            "level": "error",
+            "request": {"url": "https://sys.altinkaya.com" + path, "method": "POST"},
+        }
+        return before_send(event, {"exc_info": (type(error), error, None)})
+
+    def test_caller_mistakes_over_rpc_are_dropped(self):
+        database_missing = psycopg2.OperationalError(
+            'connection to server at "127.0.0.1", port 5432 failed: '
+            'FATAL:  database "odoo" does not exist\n'
+        )
+        for path, error in (
+            (
+                "/xmlrpc/2/object",
+                ValueError("Invalid field 'subject' on model 'res.partner'"),
+            ),
+            (
+                "/jsonrpc",
+                ValueError(
+                    "Invalid field res.partner.subject in leaf ('subject', '=', 1)"
+                ),
+            ),
+            (
+                "/xmlrpc/2/object",
+                TypeError("cannot marshal None unless allow_none is enabled"),
+            ),
+            ("/xmlrpc/2/object", OverflowError("int exceeds XML-RPC limits")),
+            ("/xmlrpc/2/common", database_missing),
+        ):
+            with self.subTest(path=path, error=str(error)):
+                self.assertIsNone(self.send(path, error))
+
+    def test_same_error_from_the_web_client_is_sent(self):
+        error = ValueError("Invalid field 'subject' on model 'res.partner'")
+        self.assertIsNotNone(self.send("/web/dataset/call_kw/res.partner/read", error))
+
+    def test_other_errors_over_rpc_are_sent(self):
+        for error in (
+            IndexError("tuple index out of range"),
+            TypeError("write_buffered() missing 1 required positional argument"),
+        ):
+            with self.subTest(error=str(error)):
+                self.assertIsNotNone(self.send("/xmlrpc/2/object", error))

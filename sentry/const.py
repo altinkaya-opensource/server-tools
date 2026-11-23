@@ -3,6 +3,7 @@
 import collections
 import logging
 
+import psycopg2
 from sentry_sdk import HttpTransport
 from sentry_sdk.consts import DEFAULT_OPTIONS
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -50,6 +51,18 @@ ODOO_USER_EXCEPTIONS = [
     "odoo.exceptions.except_orm",
 ]
 DEFAULT_IGNORED_EXCEPTIONS = ",".join(ODOO_USER_EXCEPTIONS)
+
+# Mistakes of whoever calls Odoo over XML-RPC or JSON-RPC (scripts, AI agents,
+# MCP tools, n8n): a field or database name that doesn't exist, a malformed
+# domain, a method whose result XML-RPC can't send. Odoo answers the caller with
+# the error; nothing failed on the server.
+RPC_CALLER_ERRORS = (
+    (ValueError, "Invalid field "),
+    (AssertionError, "This domain is syntactically not correct"),
+    (TypeError, "cannot marshal "),
+    (OverflowError, "int exceeds XML-RPC limits"),
+    (psycopg2.OperationalError, "does not exist"),
+)
 
 EXCLUDE_LOGGERS = ("werkzeug",)
 DEFAULT_EXCLUDE_LOGGERS = ",".join(EXCLUDE_LOGGERS)
